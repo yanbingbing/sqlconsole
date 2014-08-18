@@ -1,0 +1,17 @@
+{
+    "name": "SQL-Console",
+    "version": "1.0.0",
+    "description": "The realtime sql console",
+    "main": "./app",
+    "author": {
+        "name": "Yanbingbing",
+        "email": "me@yanbingbing.com"
+    },
+    "repository": {},
+    "dependencies": {
+        "engine.io": "1.2.0"
+    },
+    "devDependencies": {
+        "engine.io": "1.2.0"
+    }
+}

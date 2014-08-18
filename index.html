@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <title>SQLConsole</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
+    <script src="./engine.io.js"></script>
+    <style type="text/css">
+        h1 {
+            color: #a2dd32;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            position: fixed;
+            right: 0;
+            text-align: center;
+            top: 3px;
+        }
+        #msgbox {
+            position: fixed;
+            top:40px;
+            left:20px;right:20px;
+            bottom:50px;
+            background: #000000;
+            color: white;
+            overflow-y: auto;
+            padding: 10px;
+            line-height: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>SQLConsole</h1>
+<div id="msgbox"></div>
+<script>
+    function close() {
+        connected = 0;
+        console.info('socket closed, try reconnect...');
+        setTimeout(connect, 200);
+    }
+    var connected = 0;
+    var msgbox = document.getElementById('msgbox');
+    function connect() {
+        if (connected) return;
+        connected = 1;
+        var socket = eio('ws://' + location.hostname + ':2318', {
+            transports: ['websocket']
+        });
+
+        socket.on('close', close);
+        socket.on('open', function () {
+            console.info('connected');
+            socket.on('message', function (data) {
+                var sql = JSON.parse(data);
+                msgbox.innerHTML += sql.replace('\n', '<br>');
+                msgbox.scrollTop += 100000;
+            });
+        });
+    }
+    connect();
+</script>
+</body>
+</html>
